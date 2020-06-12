@@ -5,9 +5,9 @@ class Dog
   attr_accessor :name, :breed, :id
 
   
-  # def initialize(attributes)
-  #   attributes.each {|key, value| self.send(("#{key}="), value)}
-  # end
+  def initialize()
+    attributes.each {|key, value| self.send(("#{key}="), value)}
+  end
   
   def self.create_table 
     
@@ -82,9 +82,8 @@ class Dog
     
   end
   
-  def self.find_or_create_by(attributes)
-    dog = DB[:conn].execute("SELECT * FROM dogs WHERE name = ? AND breed = ?", @name, @breed)
-    binding.pry
+  def self.find_or_create_by(name:, breed:)
+    dog = DB[:conn].execute("SELECT * FROM dogs WHERE name = ? AND breed = ?", name, breed)
     if !dog.empty?
       dog_data = dog[0]
       new_dog = Dog.new({"id" => dog_data[0], "name" => dog_data[1], "breed" => dog_data[2]})
